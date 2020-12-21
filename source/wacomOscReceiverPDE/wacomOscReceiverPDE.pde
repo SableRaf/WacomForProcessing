@@ -1,14 +1,3 @@
-/**
- * oscP5plug by andreas schlegel
- * example shows how to use the plug service with oscP5.
- * the concept of the plug service is, that you can
- * register methods in your sketch to which incoming 
- * osc messages will be forwareded automatically without 
- * having to parse them in the oscEvent method.
- * that a look at the example below to get an understanding
- * of how plug works.
- * oscP5 website at http://www.sojamo.de/oscP5
- */
 
 import oscP5.*;
 import netP5.*;
@@ -65,31 +54,25 @@ void setup() {
    */
   myRemoteLocation = new NetAddress("127.0.0.1",12000);
 
-
   penX = width/2;
   penY = height/2;
   prevPenX = penX;
   prevPenY = penY;
 
-  /* osc plug service
-   * osc messages with a specific address pattern can be automatically
-   * forwarded to a specific method of an object. in this example 
-   * a message with address pattern /test will be forwarded to a method
-   * test(). below the method test takes 2 arguments - 2 ints. therefore each
-   * message with address pattern /test and typetag ii will be forwarded to
-   * the method test(int theA, int theB)
-   */
   println("");
 
-  oscP5.plug(this, oscPlugMethodName, "/test");
+  /* TEST */
+  oscPlugMethodName = "test";
+  oscAddress = "/test";
+  oscP5.plug(this, oscPlugMethodName, oscAddress);
+
+  println("");
 
   String oscTabletAddr = "wacom";
   String oscPenAddr = "pen";
   String oscEraserAddr = "eraser";
   String oscButtonAddr = "button";
   String oscProximityAddr = "proximity";
-
-  println("");
 
   for (int i=0; i<penCount; i++) { // there is only one pen but osculator switches the index from 0 to 2 sometimes
     
@@ -263,8 +246,8 @@ public void doNothing() {
 
 /* TEST */
 public void test(int theA, int theB) {
-  println("plug event method test()");
-  println(" 2 ints received: "+theA+", "+theB);
+  print("plug event method test()");
+  println(" | 2 ints received: "+theA+", "+theB);
 }
 
 /* PEN */
@@ -373,8 +356,8 @@ public void key8(float btn) {
 void mousePressed() {
   /* createan osc message with address pattern /test */
   OscMessage myMessage = new OscMessage("/test");
-  myMessage.add(123); /* add an int to the osc message */
-  myMessage.add(1.1); /* add a second int to the osc message */
+  myMessage.add(mouseX); /* add an int to the osc message */
+  myMessage.add(mouseY); /* add a second int to the osc message */
 
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation); 
