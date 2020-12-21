@@ -15,7 +15,7 @@ This has only been tested on a Wacom Intuos 3. OSC message addresses as well as 
 
 ![Settings > Devices > Wacom Tablet](/images/osculatorMouseLock.png)
 
-![Osculator main window with Intuos3ToProcessing.osc3 loaded](/images/osculator.png)
+![Osculator main window with Intuos3ToProcessing.osc3 loaded](/images/osculatorProcessing.png)
 
 ## TO DO
 
