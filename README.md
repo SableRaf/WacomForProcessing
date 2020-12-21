@@ -1,6 +1,10 @@
 # Wacom For Processing
 
-This is an example project showing how to capture the data from a Wacom tablet in Processing. We are using Osculator (Mac only) to grab the data from the Wacom driver.
+This is an example project showing how to get the data from a Wacom tablet and use it in Processing.
+
+## How it works
+
+We are using Osculator (Mac only) to grab the data from the Wacom driver and send it via OSC to a Processing sketch.
 
 Note: it is possible to use a tablet in Processing directly but this method provides access to the raw data from the driver which is more precise.
 
