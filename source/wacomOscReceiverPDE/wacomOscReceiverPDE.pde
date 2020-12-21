@@ -25,6 +25,7 @@ String oscPlugMethodName = "test";
 String oscAddress = "/test";
 
 float penX, penY, penTiltX, penTiltY, penPressure;
+float prevPenX, prevPenY;
 
 boolean isWriting = false;
 
@@ -49,7 +50,8 @@ interface Btn {
 /********************************************/
 
 void setup() {
-  size(210, 162);
+  //size(210, 162); // My Intuos 3 has a drawing area of 210 x 162 mm 
+  size(735,567);
   frameRate(25);
   /* start oscP5, listening for incoming messages at port 12000 */
   oscP5 = new OscP5(this,12000);
@@ -66,6 +68,8 @@ void setup() {
 
   penX = width/2;
   penY = height/2;
+  prevPenX = penX;
+  prevPenY = penY;
 
   /* osc plug service
    * osc messages with a specific address pattern can be automatically
@@ -154,9 +158,12 @@ void setup() {
 /********************************************/
 
 void draw() {
-  background(0);
+  if(!isWriting) background(0);
   stroke(255);
-  circle(penX*width, (1.0-penY)*height, 2);
+  strokeWeight(2);
+  line(prevPenX*width, (1.0-prevPenY)*height, penX*width, (1.0-penY)*height);
+  prevPenX = penX;
+  prevPenY = penY;
 }
 
 
@@ -183,7 +190,8 @@ public void buttonPressed(int btnIndex) {
       break;
     case Btn.R4:
       break;
-    case Btn.TIP:
+    case Btn.TIP: 
+      isWriting = true;
       break;
     case Btn.SWITCH_BOTTOM:
       break;
@@ -216,6 +224,7 @@ public void buttonReleased(int btnIndex) {
     case Btn.R4:
       break;
     case Btn.TIP:
+      isWriting = false;
       break;
     case Btn.SWITCH_BOTTOM:
       break;
