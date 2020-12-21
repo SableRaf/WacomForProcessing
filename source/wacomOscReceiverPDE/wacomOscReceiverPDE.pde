@@ -16,6 +16,13 @@ import netP5.*;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
+final int TABLET_INDEX = 1;
+
+int penCount = 3; // there is only one pen but osculator switches the index from 0 to 2 sometimes
+
+String oscPlugMethodName = "test";
+String oscAddress = "/test";
+
 void setup() {
   size(400,400);
   frameRate(25);
@@ -39,7 +46,23 @@ void setup() {
    * message with address pattern /test and typetag ii will be forwarded to
    * the method test(int theA, int theB)
    */
-  oscP5.plug(this,"test","/test");
+  oscP5.plug(this, oscPlugMethodName, "/test");
+  
+  String oscTabletAddr = "wacom";
+  String oscPenAddr = "pen";
+  String oscEraserAddr = "eraser";
+  
+  for(int i=0; i<=penCount; i++) {
+  
+    oscPlugMethodName = "pen";
+    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i; // for example: "/wacom/1/pen/0"
+    oscP5.plug(this, oscPlugMethodName, oscAddress); 
+    
+    oscPlugMethodName = "eraser";
+    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i; // for example: "wacom/1/eraser/0"
+    oscP5.plug(this, oscPlugMethodName, oscAddress); 
+  
+  }
 }
 
 
@@ -48,6 +71,15 @@ public void test(int theA, int theB) {
   println(" 2 ints received: "+theA+", "+theB);  
 }
 
+public void pen(float x, float y, float tiltX, float tiltY, float pressure) {
+  println("### plug event method pen()");
+  println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
+}
+
+public void eraser(float x, float y, float tiltX, float tiltY, float pressure) {
+  println("### plug event method eraser()");
+  println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
+}
 
 void draw() {
   background(0);
@@ -59,7 +91,7 @@ void mousePressed() {
   OscMessage myMessage = new OscMessage("/test");
   
   myMessage.add(123); /* add an int to the osc message */
-  myMessage.add(456); /* add a second int to the osc message */
+  myMessage.add(1.1); /* add a second int to the osc message */
 
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation); 
