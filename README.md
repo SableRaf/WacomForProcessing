@@ -1,4 +1,4 @@
-# wacomOscReceiver
+# Wacom For Processing
 
 This is an example project showing how to capture the data from a Wacom tablet in Processing. We are using Osculator (Mac only) to grab the data from the Wacom driver.
 
