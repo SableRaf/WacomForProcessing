@@ -24,6 +24,22 @@ int keyCount = 8;
 String oscPlugMethodName = "test";
 String oscAddress = "/test";
 
+interface Btn {
+  int
+  L1 = 1,
+  L2 = 2,
+  L3 = 3,
+  L4 = 4,
+  R1 = 5,
+  R2 = 6,
+  R3 = 7,
+  R4 = 8,
+  TIP = 9,
+  SWITCH_BOTTOM = 10,
+  SWITCH_TOP = 11,
+  ERASER_TIP = 12;
+}
+
 void setup() {
   size(210, 162);
   frameRate(25);
@@ -55,73 +71,167 @@ void setup() {
   String oscTabletAddr = "wacom";
   String oscPenAddr = "pen";
   String oscEraserAddr = "eraser";
+  String oscButtonAddr = "button";
+  String oscProximityAddr = "proximity";
 
   println("");
 
-  for (int i=0; i<penCount; i++) {
+  for (int i=0; i<penCount; i++) { // there is only one pen but osculator switches the index from 0 to 2 sometimes
+    
+    /* PEN */
     oscPlugMethodName = "pen";
     oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i; // for example: "/wacom/1/pen/0"
-    oscP5.plug(this, oscPlugMethodName, oscAddress); 
+    oscP5.plug(this, oscPlugMethodName, oscAddress);
+    
+    /* PEN PROXIMITY */
+    oscPlugMethodName = "penProximity";
+    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscProximityAddr; // "/wacom/1/pen/0/proximity"
+    oscP5.plug(this, oscPlugMethodName, oscAddress);
+    
+    /*  TIP */
+    oscPlugMethodName = "penButton1";
+    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 1; // "/wacom/1/pen/0/button/1"
+    oscP5.plug(this, oscPlugMethodName, oscAddress);
+    
+    /*  DUOSWITCH */ // pen buttons 2 and 3 are the grip buttons (aka DuoSwitch)
+    oscPlugMethodName = "penButton2";
+    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 2; // "/wacom/1/pen/0/button/2"
+    oscP5.plug(this, oscPlugMethodName, oscAddress);
+    oscPlugMethodName = "penButton3";
+    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 3; // "/wacom/1/pen/0/button/2"
+    oscP5.plug(this, oscPlugMethodName, oscAddress);
 
+    /* ERASER */
     oscPlugMethodName = "eraser";
     oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i; // for example: "wacom/1/eraser/0"
     oscP5.plug(this, oscPlugMethodName, oscAddress);
+    
+    /* ERASER TIP */
+    oscPlugMethodName = "eraserButton1";
+    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + oscButtonAddr + "/" + 1; // "wacom/1/eraser/0/button/1"
+    oscP5.plug(this, oscPlugMethodName, oscAddress);
+    
+    /* ERASER PROXIMITY */
+    oscPlugMethodName = "eraserProximity";
+    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + oscProximityAddr; // For example "/wacom/1/eraser/0/proximity"
+    oscP5.plug(this, oscPlugMethodName, oscAddress);
+    
+    for(int j=0; j<5; j++) {
+      oscPlugMethodName = "doNothing";
+      
+      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + j; // "/wacom/1/pen/0/2"
+      oscP5.plug(this, oscPlugMethodName, oscAddress);
+      
+      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + j; // "/wacom/1/eraser/0/2"
+      oscP5.plug(this, oscPlugMethodName, oscAddress);
+    }
 
     println("");
   }
 
+  /* EXPRESS KEYS */
   for (int i=1; i<=keyCount; i++) {
     oscPlugMethodName = "key"+i;
     String oscKeyAddr = "key" + "/" + i;
     oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscKeyAddr; // for example: "/wacom/1/key/8"
     oscP5.plug(this, oscPlugMethodName, oscAddress);
   }
+  
+
+  
 }
+
+
+/********************************************/
+/*             EVENT HANDLERS               */
+/********************************************/
 
 public void buttonPressed(int btnIndex) {
   println("button " + btnIndex + " pressed");
   switch (btnIndex) {
-    case 1:
+    case Btn.L1:
       break;
-    case 2:
+    case Btn.L2:
       break;
-    case 3:
+    case Btn.L3:
       break;
-    case 4:
+    case Btn.L4:
       break;
-    case 5:
+    case Btn.R1:
       break;
-    case 6:
+    case Btn.R2:
       break;
-    case 7:
+    case Btn.R3:
       break;
-    case 8:
+    case Btn.R4:
+      break;
+    case Btn.TIP:
+      break;
+    case Btn.SWITCH_BOTTOM:
+      break;
+    case Btn.SWITCH_TOP:
+      break;
+    case Btn.ERASER_TIP:
       break;
     default:
+      println("invalid button index: " + btnIndex);
   }
 }
 
 public void buttonReleased(int btnIndex) {
   println("button " + btnIndex + " released");
   switch (btnIndex) {
-    case 1:
+    case Btn.L1:
       break;
-    case 2:
+    case Btn.L2:
       break;
-    case 3:
+    case Btn.L3:
       break;
-    case 4:
+    case Btn.L4:
       break;
-    case 5:
+    case Btn.R1:
       break;
-    case 6:
+    case Btn.R2:
       break;
-    case 7:
+    case Btn.R3:
       break;
-    case 8:
+    case Btn.R4:
+      break;
+    case Btn.TIP:
+      break;
+    case Btn.SWITCH_BOTTOM:
+      break;
+    case Btn.SWITCH_TOP:
+      break;
+    case Btn.ERASER_TIP:
       break;
     default:
+      println("invalid button index: " + btnIndex);
   }
+}
+
+public void penDetected() {
+  println("penDetected()");
+}
+public void penLost() {
+  println("penLost()");
+}
+
+public void eraserDetected() {
+  println("eraserDetected()");
+}
+public void eraserLost() {
+  println("eraserLost()");
+}
+
+
+/********************************************/
+/*             PLUG METHODS                 */
+/********************************************/
+
+/* DISCARD */ // explicitely capture unused osc messages
+public void doNothing() {
+  println("doing nothing");
 }
 
 /* TEST */
@@ -132,17 +242,56 @@ public void test(int theA, int theB) {
 
 /* PEN */
 public void pen(float x, float y, float tiltX, float tiltY, float pressure) {
-  println("plug event method pen()");
-  println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
+  //println("plug event method pen()");
+  //println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
+}
+
+/* PEN PROXIMITY */
+public void penProximity(float proximity){
+  //println("plug event method penProximity() | " + "proximity: "+ proximity);
+  if (proximity == 1.0) penDetected();
+  else if (proximity == 0.0) penLost();
+}
+
+/* TIP */
+public void penButton1(float btn) {
+  int k = 9;
+  if (btn == 1.0) buttonPressed(k);
+  else if (btn == 0.0) buttonReleased(k);
+}
+
+/* DUOSWITCH */
+public void penButton2(float btn) {
+  int k = 10;
+  if (btn == 1.0) buttonPressed(k);
+  else if (btn == 0.0) buttonReleased(k);
+}
+public void penButton3(float btn) {
+  int k = 11;
+  if (btn == 1.0) buttonPressed(k);
+  else if (btn == 0.0) buttonReleased(k);
 }
 
 /* ERASER */
 public void eraser(float x, float y, float tiltX, float tiltY, float pressure) {
-  println("plug event method eraser()");
-  println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
+  //println("plug event method eraser()");
+  //println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
 }
 
-/* KEYS */
+public void eraserButton1(float btn) {
+  int k = 12;
+  if (btn == 1.0) buttonPressed(k);
+  else if (btn == 0.0) buttonReleased(k);
+}
+
+/* ERASER PROXIMITY */
+public void eraserProximity(float proximity){
+  println("plug event method eraserProximity() | " + "proximity: "+ proximity);
+  if (proximity == 1.0) eraserDetected();
+  else if (proximity == 0.0) eraserLost();
+}
+
+/* EXPRESS KEYS */
 public void key1(float btn) {
   int k = 1;
   if (btn == 1.0) buttonPressed(k);
