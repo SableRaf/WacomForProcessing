@@ -16,7 +16,11 @@ String oscAddress = "/test";
 float penX, penY, penTiltX, penTiltY, penPressure;
 float prevPenX, prevPenY;
 
+float strip1Value, strip2Value;
+
 boolean isWriting = false;
+
+ArrayList<PVector> newPositions;
 
 interface Btn {
   int
@@ -31,7 +35,9 @@ interface Btn {
   TIP = 9,
   SWITCH_BOTTOM = 10,
   SWITCH_TOP = 11,
-  ERASER_TIP = 12;
+  ERASER_TIP = 12,
+  STRIP_1 = 13,
+  STRIP_2 = 14;
 }
 
 /********************************************/
@@ -73,6 +79,7 @@ void setup() {
   String oscEraserAddr = "eraser";
   String oscButtonAddr = "button";
   String oscProximityAddr = "proximity";
+  String oscStripAddr = "strip";
 
   for (int i=0; i<penCount; i++) { // there is only one pen but osculator switches the index from 0 to 2 sometimes
     
@@ -133,7 +140,17 @@ void setup() {
     String oscKeyAddr = "key" + "/" + i;
     oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscKeyAddr; // for example: "/wacom/1/key/8"
     oscP5.plug(this, oscPlugMethodName, oscAddress);
-  }  
+  }
+  
+  /*  DUOSWITCH */ // pen buttons 2 and 3 are the grip buttons (aka DuoSwitch)
+  oscPlugMethodName = "strip1";
+  oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscStripAddr + "/" + 1; // "/wacom/1/strip/1"
+  oscP5.plug(this, oscPlugMethodName, oscAddress);
+  oscPlugMethodName = "strip2";
+  oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscStripAddr + "/" + 2; // "/wacom/1/strip/2"
+  oscP5.plug(this, oscPlugMethodName, oscAddress);
+
+  
 }
 
 /********************************************/
@@ -182,6 +199,10 @@ public void buttonPressed(int btnIndex) {
       break;
     case Btn.ERASER_TIP:
       break;
+    case Btn.STRIP_1:
+      break;
+    case Btn.STRIP_2:
+      break;
     default:
       println("invalid button index: " + btnIndex);
   }
@@ -214,6 +235,10 @@ public void buttonReleased(int btnIndex) {
     case Btn.SWITCH_TOP:
       break;
     case Btn.ERASER_TIP:
+      break;
+    case Btn.STRIP_1:
+      break;
+    case Btn.STRIP_2:
       break;
     default:
       println("invalid button index: " + btnIndex);
@@ -348,6 +373,19 @@ public void key8(float btn) {
   else if (btn == 0.0) buttonReleased(k);
 }
 
+public void strip1(float value, float btn) {
+  this.strip1Value = value;
+  int k = 13;
+  if (btn == 1.0) buttonPressed(k);
+  else if (btn == 0.0) buttonReleased(k);
+}
+
+public void strip2(float value, float btn) {
+  this.strip2Value = value;
+  int k = 14;
+  if (btn == 1.0) buttonPressed(k);
+  else if (btn == 0.0) buttonReleased(k);
+}
 
 /********************************************/
 /*             MOUSE PRESSED                */
