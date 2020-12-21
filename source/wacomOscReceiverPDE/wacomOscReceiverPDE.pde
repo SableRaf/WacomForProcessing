@@ -24,6 +24,10 @@ int keyCount = 8;
 String oscPlugMethodName = "test";
 String oscAddress = "/test";
 
+float penX, penY, penTiltX, penTiltY, penPressure;
+
+boolean isWriting = false;
+
 interface Btn {
   int
   L1 = 1,
@@ -40,6 +44,10 @@ interface Btn {
   ERASER_TIP = 12;
 }
 
+/********************************************/
+/*                   SETUP                  */
+/********************************************/
+
 void setup() {
   size(210, 162);
   frameRate(25);
@@ -55,6 +63,9 @@ void setup() {
    */
   myRemoteLocation = new NetAddress("127.0.0.1",12000);
 
+
+  penX = width/2;
+  penY = height/2;
 
   /* osc plug service
    * osc messages with a specific address pattern can be automatically
@@ -135,10 +146,17 @@ void setup() {
     String oscKeyAddr = "key" + "/" + i;
     oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscKeyAddr; // for example: "/wacom/1/key/8"
     oscP5.plug(this, oscPlugMethodName, oscAddress);
-  }
-  
+  }  
+}
 
-  
+/********************************************/
+/*                   DRAW                   */
+/********************************************/
+
+void draw() {
+  background(0);
+  stroke(255);
+  circle(penX*width, (1.0-penY)*height, 2);
 }
 
 
@@ -242,6 +260,11 @@ public void test(int theA, int theB) {
 
 /* PEN */
 public void pen(float x, float y, float tiltX, float tiltY, float pressure) {
+  this.penX = x;
+  this.penY = y;
+  this.penTiltX = tiltX;
+  this.penTiltY = tiltY;
+  this.penPressure = pressure;
   //println("plug event method pen()");
   //println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
 }
@@ -286,7 +309,7 @@ public void eraserButton1(float btn) {
 
 /* ERASER PROXIMITY */
 public void eraserProximity(float proximity){
-  println("plug event method eraserProximity() | " + "proximity: "+ proximity);
+  //println("plug event method eraserProximity() | " + "proximity: "+ proximity);
   if (proximity == 1.0) eraserDetected();
   else if (proximity == 0.0) eraserLost();
 }
@@ -334,10 +357,9 @@ public void key8(float btn) {
 }
 
 
-void draw() {
-  background(0);
-}
-
+/********************************************/
+/*             MOUSE PRESSED                */
+/********************************************/
 
 void mousePressed() {
   /* createan osc message with address pattern /test */
@@ -350,6 +372,10 @@ void mousePressed() {
 }
 
 
+/********************************************/
+/*               OSC EVENT                  */
+/********************************************/
+
 /* incoming osc message are forwarded to the oscEvent method. */
 void oscEvent(OscMessage theOscMessage) {
   /* with theOscMessage.isPlugged() you check if the osc message has already been
@@ -359,8 +385,8 @@ void oscEvent(OscMessage theOscMessage) {
    */
   if (theOscMessage.isPlugged()==false) {
     /* print the address pattern and the typetag of the received OscMessage */
-    println("### received an osc message.");
-    println("### addrpattern\t"+theOscMessage.addrPattern());
-    println("### typetag\t"+theOscMessage.typetag());
+    //println("### received an osc message.");
+    //println("### addrpattern\t"+theOscMessage.addrPattern());
+    //println("### typetag\t"+theOscMessage.typetag());
   }
 }
