@@ -29,6 +29,5 @@ Note: it is possible to use a tablet in Processing directly but this method prov
 
 ## TO DO
 
-- Touch strips support
 - Capture data between frames
 - Windows support. Possibly via [vvvv](https://betadocs.vvvv.org/topics/io/hardware/graphics-tablets.html) or [WMIDI](http://www.nicolasfournel.com/?page_id=73)
