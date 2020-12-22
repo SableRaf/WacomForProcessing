@@ -21,7 +21,7 @@ ArrayList<PVector> stroke;
 
 Pen pen;
 
-String[] btnNames = {"L1","L2","L3","L4","R1","R2","R3","R4","TIP","SWITCH BOTTOM","SWITCH TOP","STRIP LEFT","STRIP RIGHT"};
+String[] btnNames = {"Void","L1","L2","L3","L4","R1","R2","R3","R4","TIP","SWITCH BOTTOM","SWITCH TOP","ERASER_TIP","STRIP LEFT","STRIP RIGHT"};
 
 interface Btn {
   int
@@ -182,7 +182,7 @@ void draw() {
 /********************************************/
 
 public void buttonPressed(int btnIndex) {
-  println("button " + btnIndex + " pressed");
+  println("Button pressed: " + btnNames[btnIndex]);
   switch (btnIndex) {
     case Btn.L1:
       break;
@@ -219,7 +219,7 @@ public void buttonPressed(int btnIndex) {
 }
 
 public void buttonReleased(int btnIndex) {
-  println("button " + btnIndex + " released");
+  println("Button released: " + btnNames[btnIndex]);
   switch (btnIndex) {
     case Btn.L1:
       break;
