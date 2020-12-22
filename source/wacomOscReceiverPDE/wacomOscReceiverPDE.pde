@@ -145,7 +145,7 @@ void setup() {
     oscP5.plug(this, oscPlugMethodName, oscAddress);
   }
   
-  /*  DUOSWITCH */ // pen buttons 2 and 3 are the grip buttons (aka DuoSwitch)
+  /*  TOUCH STRIPS */ 
   oscPlugMethodName = "strip1";
   oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscStripAddr + "/" + 1; // "/wacom/1/strip/1"
   oscP5.plug(this, oscPlugMethodName, oscAddress);
