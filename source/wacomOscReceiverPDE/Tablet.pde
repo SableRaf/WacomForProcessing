@@ -1,7 +1,7 @@
 import oscP5.*;
 import netP5.*;
 
-class WacomOscManager {
+class Tablet {
 
   OscP5 oscP5;
   NetAddress myRemoteLocation;
@@ -22,7 +22,7 @@ class WacomOscManager {
 
   Object parent;
 
-  WacomOscManager(String theAddress, int theInPort, int theOutPort) {
+  Tablet(String theAddress, int theInPort, int theOutPort) {
     parent = this;
     initOsc(parent, theAddress, theInPort, theOutPort);
     pen = new Pen();
@@ -71,51 +71,51 @@ class WacomOscManager {
     for (int i=0; i<penCount; i++) { // there is only one pen but osculator switches the index from 0 to 2 sometimes
 
       /* PEN */
-      oscPlugMethodName = "pen";
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i; // for example: "/wacom/1/pen/0"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscPlugMethodName = "pen";
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i; // for example: "/wacom/1/pen/0"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
 
       /* PEN PROXIMITY */
-      oscPlugMethodName = "penProximity";
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscProximityAddr; // "/wacom/1/pen/0/proximity"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscPlugMethodName = "penProximity";
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscProximityAddr; // "/wacom/1/pen/0/proximity"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
 
       /*  TIP */
-      oscPlugMethodName = "penButton1";
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 1; // "/wacom/1/pen/0/button/1"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscPlugMethodName = "penButton1";
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 1; // "/wacom/1/pen/0/button/1"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
 
       /*  DUOSWITCH */      // pen buttons 2 and 3 are the grip buttons (aka DuoSwitch)
-      oscPlugMethodName = "penButton2";
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 2; // "/wacom/1/pen/0/button/2"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
-      oscPlugMethodName = "penButton3";
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 3; // "/wacom/1/pen/0/button/2"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscPlugMethodName = "penButton2";
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 2; // "/wacom/1/pen/0/button/2"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscPlugMethodName = "penButton3";
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + oscButtonAddr + "/" + 3; // "/wacom/1/pen/0/button/2"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
 
       /* ERASER */
-      oscPlugMethodName = "eraser";
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i; // for example: "wacom/1/eraser/0"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscPlugMethodName = "eraser";
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i; // for example: "wacom/1/eraser/0"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
 
       /* ERASER TIP */
-      oscPlugMethodName = "eraserButton1";
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + oscButtonAddr + "/" + 1; // "wacom/1/eraser/0/button/1"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscPlugMethodName = "eraserButton1";
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + oscButtonAddr + "/" + 1; // "wacom/1/eraser/0/button/1"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
 
       /* ERASER PROXIMITY */
-      oscPlugMethodName = "eraserProximity";
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + oscProximityAddr; // For example "/wacom/1/eraser/0/proximity"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscPlugMethodName = "eraserProximity";
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + oscProximityAddr; // For example "/wacom/1/eraser/0/proximity"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
 
       for (int j=0; j<5; j++) {
-        oscPlugMethodName = "doNothing";
+        this.oscPlugMethodName = "doNothing";
 
-        oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + j; // For example "/wacom/1/pen/0/2"
-        oscP5.plug(parent, oscPlugMethodName, oscAddress);
+        this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscPenAddr + "/" + i + "/" + j; // For example "/wacom/1/pen/0/2"
+        this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
 
-        oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + j; // For example "/wacom/1/eraser/0/2"
-        oscP5.plug(parent, oscPlugMethodName, oscAddress);
+        this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscEraserAddr + "/" + i + "/" + j; // For example "/wacom/1/eraser/0/2"
+        this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
       }
 
       println("");
@@ -123,19 +123,19 @@ class WacomOscManager {
 
     /* EXPRESS KEYS */
     for (int i=1; i<=keyCount; i++) {
-      oscPlugMethodName = "key"+i;
+      this.oscPlugMethodName = "key"+i;
       String oscKeyAddr = "key" + "/" + i;
-      oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscKeyAddr; // for example: "/wacom/1/key/8"
-      oscP5.plug(parent, oscPlugMethodName, oscAddress);
+      this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscKeyAddr; // for example: "/wacom/1/key/8"
+      this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
     }
 
     /*  TOUCH STRIPS */
-    oscPlugMethodName = "strip1";
-    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscStripAddr + "/" + 1; // "/wacom/1/strip/1"
-    oscP5.plug(parent, oscPlugMethodName, oscAddress);
-    oscPlugMethodName = "strip2";
-    oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscStripAddr + "/" + 2; // "/wacom/1/strip/2"
-    oscP5.plug(parent, oscPlugMethodName, oscAddress);
+    this.oscPlugMethodName = "strip1";
+    this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscStripAddr + "/" + 1; // "/wacom/1/strip/1"
+    this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
+    this.oscPlugMethodName = "strip2";
+    this.oscAddress = "/" + oscTabletAddr + "/" + TABLET_INDEX + "/" + oscStripAddr + "/" + 2; // "/wacom/1/strip/2"
+    this.oscP5.plug(parent, oscPlugMethodName, oscAddress);
   }
 
   void sendTestMessage() {
@@ -145,7 +145,7 @@ class WacomOscManager {
     myMessage.add(mouseY); /* add a second int to the osc message */
 
     /* send the message */
-    oscP5.send(myMessage, myRemoteLocation);
+    this.oscP5.send(myMessage, myRemoteLocation);
   }
 
   /********************************************/
@@ -206,6 +206,11 @@ class WacomOscManager {
 
   /* ERASER */
   public void eraser(float x, float y, float tiltX, float tiltY, float pressure) {
+    this.pen.x = x;
+    this.pen.y = y;
+    this.pen.tiltX = tiltX;
+    this.pen.tiltY = tiltY;
+    this.pen.pressure = pressure;
     //println("plug event method eraser()");
     //println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
   }

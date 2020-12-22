@@ -1,5 +1,5 @@
 
-WacomOscManager wacom;
+Tablet wacom;
 String netAddress = "127.0.0.1";
 int listeningPort = 12000;
 int remotePort = 12000;
@@ -17,7 +17,7 @@ void setup() {
 
   stroke = new ArrayList<PVector>();
 
-  wacom = new WacomOscManager(netAddress, listeningPort, remotePort);
+  wacom = new Tablet(netAddress, listeningPort, remotePort);
   wacom.plugIntuos3();
 }
 
