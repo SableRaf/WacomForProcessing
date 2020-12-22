@@ -35,8 +35,8 @@ interface Btn {
   SWITCH_BOTTOM = 10,
   SWITCH_TOP = 11,
   ERASER_TIP = 12,
-  STRIP_1 = 13,
-  STRIP_2 = 14;
+  STRIP_LEFT = 13,
+  STRIP_RIGHT = 14;
 }
 
 /********************************************/
@@ -169,7 +169,6 @@ void draw() {
     float y1 = stroke.get(i).y * height;
     line(x0,y0,x1,y1);
   }
-  
 }
 
 
@@ -205,9 +204,9 @@ public void buttonPressed(int btnIndex) {
       break;
     case Btn.ERASER_TIP:
       break;
-    case Btn.STRIP_1:
+    case Btn.STRIP_LEFT:
       break;
-    case Btn.STRIP_2:
+    case Btn.STRIP_RIGHT:
       break;
     default:
       println("invalid button index: " + btnIndex);
@@ -242,9 +241,9 @@ public void buttonReleased(int btnIndex) {
       break;
     case Btn.ERASER_TIP:
       break;
-    case Btn.STRIP_1:
+    case Btn.STRIP_LEFT:
       break;
-    case Btn.STRIP_2:
+    case Btn.STRIP_RIGHT:
       break;
     default:
       println("invalid button index: " + btnIndex);
