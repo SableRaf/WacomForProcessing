@@ -13,14 +13,13 @@ int keyCount = 8;
 String oscPlugMethodName = "test";
 String oscAddress = "/test";
 
-float penX, penY, penTiltX, penTiltY, penPressure;
-float prevPenX, prevPenY;
-
 float strip1Value, strip2Value;
 
 boolean isWriting = false;
 
-ArrayList<PVector> newPositions;
+ArrayList<PVector> stroke;
+
+Pen pen;
 
 interface Btn {
   int
@@ -60,10 +59,12 @@ void setup() {
    */
   myRemoteLocation = new NetAddress("127.0.0.1",12000);
 
-  penX = width/2;
-  penY = height/2;
-  prevPenX = penX;
-  prevPenY = penY;
+  stroke = new ArrayList<PVector>();
+
+  pen = new Pen();
+  
+  pen.x = width/2;
+  pen.y = height/2;
 
   println("");
 
@@ -158,12 +159,17 @@ void setup() {
 /********************************************/
 
 void draw() {
-  if(!isWriting) background(0);
+  background(0);
   stroke(255);
   strokeWeight(2);
-  line(prevPenX*width, (1.0-prevPenY)*height, penX*width, (1.0-penY)*height);
-  prevPenX = penX;
-  prevPenY = penY;
+  for(int i=1; i<stroke.size(); i++) {
+    float x0 = stroke.get(i).x * width;
+    float y0 = stroke.get(i).y * height;
+    float x1 = stroke.get(i).x * width;
+    float y1 = stroke.get(i).y * height;
+    line(x0,y0,x1,y1);
+  }
+  
 }
 
 
@@ -191,7 +197,7 @@ public void buttonPressed(int btnIndex) {
     case Btn.R4:
       break;
     case Btn.TIP: 
-      isWriting = true;
+      this.startWriting();
       break;
     case Btn.SWITCH_BOTTOM:
       break;
@@ -228,7 +234,7 @@ public void buttonReleased(int btnIndex) {
     case Btn.R4:
       break;
     case Btn.TIP:
-      isWriting = false;
+      this.stopWriting();
       break;
     case Btn.SWITCH_BOTTOM:
       break;
@@ -245,18 +251,31 @@ public void buttonReleased(int btnIndex) {
   }
 }
 
-public void penDetected() {
-  println("penDetected()");
+public void penDetected(int state) {
+  if(pen.detected == false) {
+    pen.detected(state);
+    println("Pen detected: " + pen.getStateName());
+  }
 }
 public void penLost() {
-  println("penLost()");
+  if(pen.detected == true) {
+    println("Pen lost: " + pen.getStateName());
+    pen.lost();
+  }
 }
 
-public void eraserDetected() {
-  println("eraserDetected()");
+public void startWriting() {
+  this.isWriting = true;
+  stroke.clear();
 }
-public void eraserLost() {
-  println("eraserLost()");
+
+public void addPoint(float x, float y) {
+  PVector newPoint = new PVector(x,y);
+  stroke.add(newPoint);
+}
+
+public void stopWriting() {
+  this.isWriting = false;
 }
 
 
@@ -277,11 +296,14 @@ public void test(int theA, int theB) {
 
 /* PEN */
 public void pen(float x, float y, float tiltX, float tiltY, float pressure) {
-  this.penX = x;
-  this.penY = y;
-  this.penTiltX = tiltX;
-  this.penTiltY = tiltY;
-  this.penPressure = pressure;
+  if(this.isWriting) {
+    this.addPoint(x,y);
+  }
+  this.pen.x = x;
+  this.pen.y = y;
+  this.pen.tiltX = tiltX;
+  this.pen.tiltY = tiltY;
+  this.pen.pressure = pressure;
   //println("plug event method pen()");
   //println("x: "+x+", y: "+y+", tiltX: "+tiltX+", tiltY: "+tiltY+", pressure: "+pressure);
 }
@@ -289,8 +311,8 @@ public void pen(float x, float y, float tiltX, float tiltY, float pressure) {
 /* PEN PROXIMITY */
 public void penProximity(float proximity){
   //println("plug event method penProximity() | " + "proximity: "+ proximity);
-  if (proximity == 1.0) penDetected();
-  else if (proximity == 0.0) penLost();
+  if (proximity == 1.0) this.penDetected(PenSide.TIP);
+  else if (proximity == 0.0) this.penLost();
 }
 
 /* TIP */
@@ -327,8 +349,8 @@ public void eraserButton1(float btn) {
 /* ERASER PROXIMITY */
 public void eraserProximity(float proximity){
   //println("plug event method eraserProximity() | " + "proximity: "+ proximity);
-  if (proximity == 1.0) eraserDetected();
-  else if (proximity == 0.0) eraserLost();
+  if (proximity == 1.0) this.penDetected(PenSide.ERASER);
+  else if (proximity == 0.0) this.penLost();
 }
 
 /* EXPRESS KEYS */
