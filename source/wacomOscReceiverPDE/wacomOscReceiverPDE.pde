@@ -21,6 +21,8 @@ ArrayList<PVector> stroke;
 
 Pen pen;
 
+String[] btnNames = {"L1","L2","L3","L4","R1","R2","R3","R4","TIP","SWITCH BOTTOM","SWITCH TOP","STRIP LEFT","STRIP RIGHT"};
+
 interface Btn {
   int
   L1 = 1,
