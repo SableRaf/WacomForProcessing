@@ -160,6 +160,7 @@ void setup() {
 
 void draw() {
   background(0);
+  noFill();
   stroke(255);
   strokeWeight(2);
   for(int i=1; i<stroke.size(); i++) {
@@ -169,6 +170,8 @@ void draw() {
     float y1 = stroke.get(i).y * height;
     line(x0,y0,x1,y1);
   }
+  strokeWeight(1);
+  circle(pen.x*width, (1.0-pen.y)*height, 4);
 }
 
 
