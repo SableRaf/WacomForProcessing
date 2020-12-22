@@ -165,12 +165,16 @@ void draw() {
   noFill();
   stroke(255);
   strokeWeight(2);
-  for(int i=1; i<stroke.size(); i++) {
-    float x0 = stroke.get(i).x * width;
-    float y0 = stroke.get(i).y * height;
-    float x1 = stroke.get(i).x * width;
-    float y1 = stroke.get(i).y * height;
-    line(x0,y0,x1,y1);
+  if(stroke.size()>2) {
+    for(int i=1; i<stroke.size(); i++) {
+      PVector currentPoint = stroke.get(i);
+      PVector previousPoint = stroke.get(i-1);
+      float x0 = previousPoint.x * width;
+      float y0 = (1.0-previousPoint.y) * height;
+      float x1 = currentPoint.x * width;
+      float y1 = (1.0-currentPoint.y) * height;
+      line(x0,y0,x1,y1);
+    }
   }
   strokeWeight(1);
   circle(pen.x*width, (1.0-pen.y)*height, 4);
