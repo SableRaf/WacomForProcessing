@@ -45,7 +45,7 @@ interface Btn {
 
 void setup() {
   //size(210, 162); // My Intuos 3 has a drawing area of 210 x 162 mm 
-  size(735,567);
+  size(735,567,P2D);
   frameRate(25);
   /* start oscP5, listening for incoming messages at port 12000 */
   oscP5 = new OscP5(this,12000);
