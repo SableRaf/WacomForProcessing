@@ -16,7 +16,7 @@ Note: it is possible to use a tablet in Processing directly but this method prov
 - Launch Osculator and open the Intuos3ToProcessing.osc3 configuration file
 - Install [Processing](http://processing.org/)
 - With Processing, open and run wacomOscReceiverPDE.pde
-- Click on the Osculator window and press CAPS-LOCK to lock the mouse and start sending tablet data as osc messages
+- Click on the Osculator window and press CAPS-LOCK to lock the mouse and start sending tablet data as osc messages (see the Osculator settings to change the key binding)
 - Bring the processing sketch window forward so you can see what you're doing
 - Use your pen tablet to draw
 
